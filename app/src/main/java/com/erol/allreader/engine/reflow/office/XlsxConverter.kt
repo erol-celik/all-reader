@@ -264,9 +264,9 @@ object XlsxConverter {
         }
     }
 
-    /** 15 anlamlı basamağa yuvarlar (0.30000000000000004 → 0.3), bilimsel gösterim kullanmaz. */
+    /** Excel "Genel" biçimi gibi 11 anlamlı basamağa yuvarlar (0.30000000000000004 → 0.3), bilimsel gösterim kullanmaz. */
     internal fun formatNumber(raw: String): String = try {
-        val bd = BigDecimal(raw).round(MathContext(15)).stripTrailingZeros()
+        val bd = BigDecimal(raw).round(MathContext(11)).stripTrailingZeros()
         if (bd.scale() < 0) bd.setScale(0).toPlainString() else bd.toPlainString()
     } catch (e: NumberFormatException) {
         raw

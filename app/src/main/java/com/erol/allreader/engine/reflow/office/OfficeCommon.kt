@@ -108,6 +108,8 @@ class OfficePackage private constructor(private val entries: Map<String, ByteArr
         /** Tek bir girdinin ve toplamın açılmış boyut sınırları (zip bombası koruması). */
         private const val MAX_XML_ENTRY = 64L * 1024 * 1024
         private const val MAX_IMAGE_ENTRY = 8L * 1024 * 1024
+        /** Pakette bellekte tutulan görsellerin toplamı; fazlası okunmadan atlanır (yer tutucu gösterilir). */
+        private const val MAX_IMAGES_TOTAL = 24L * 1024 * 1024
         private const val MAX_TOTAL = 200L * 1024 * 1024
         private val imageExt = setOf("png", "jpg", "jpeg", "gif", "bmp", "webp")
 
@@ -141,6 +143,7 @@ class OfficePackage private constructor(private val entries: Map<String, ByteArr
             }
             val map = HashMap<String, ByteArray>()
             var total = 0L
+            var imagesTotal = 0L
             try {
                 ZipInputStream(buffered).use { zip ->
                     while (true) {
@@ -153,7 +156,13 @@ class OfficePackage private constructor(private val entries: Map<String, ByteArr
                             ext in imageExt -> MAX_IMAGE_ENTRY
                             else -> continue
                         }
+                        val isImage = ext in imageExt
+                        if (isImage && imagesTotal >= MAX_IMAGES_TOTAL) continue
                         val data = readLimited(zip, limit) ?: continue
+                        if (isImage) {
+                            if (imagesTotal + data.size > MAX_IMAGES_TOTAL) continue
+                            imagesTotal += data.size
+                        }
                         total += data.size
                         if (total > MAX_TOTAL) throw OfficeFormatException("Belge çok büyük")
                         map[name] = data
@@ -192,7 +201,7 @@ class OfficePackage private constructor(private val entries: Map<String, ByteArr
 }
 
 /** Belgedeki görselleri `data:` URI'sine çevirir; toplam boyutu sınırlar ki HTML şişmesin. */
-class ImageEmbedder(private val pkg: OfficePackage, private val budgetBytes: Long = 40L * 1024 * 1024) {
+class ImageEmbedder(private val pkg: OfficePackage, private val budgetBytes: Long = 8L * 1024 * 1024) {
     private var used = 0L
 
     /** Görsel gömülemezse (yok, desteklenmeyen tür, bütçe doldu) yer tutucu metin döner. */

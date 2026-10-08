@@ -43,7 +43,7 @@ Her dosya formatı iki motordan birine gider (`engine/DocumentFormat.kt` eşler)
 
 ## Test dosyaları
 
-Telefonda `/sdcard/AllReaderTest` uç durum dosyalarını içerir (bitince silinecek). adb ile ekran otomasyonunda: Git Bash'te `/sdcard/...` yolları için `MSYS_NO_PATHCONV=1` gerekir; `input text` içinde `.` sonrası klavye boşluk ekleyebilir; kütüphanedeyken Geri tuşu uygulamadan çıkarır.
+Uç durum test dosyaları (`/sdcard/AllReaderTest`) 2026-10-08'de telefondan silindi; gerekirse yeniden üretilir. adb ile ekran otomasyonunda: Git Bash'te `/sdcard/...` yolları için `MSYS_NO_PATHCONV=1` gerekir; `input text` içinde `.` sonrası klavye boşluk ekleyebilir; kütüphanedeyken Geri tuşu uygulamadan çıkarır.
 
 ## Değişmez kısıtlar
 

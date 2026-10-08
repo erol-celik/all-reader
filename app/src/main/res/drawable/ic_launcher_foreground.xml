@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Sayfa -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M34,24H64L76,36V84H34Z" />
+    <!-- Kıvrık köşe -->
+    <path
+        android:fillColor="#C9D6E8"
+        android:pathData="M64,24V36H76Z" />
+    <!-- Metin çizgileri -->
+    <path
+        android:fillColor="#1F3A5F"
+        android:pathData="M42,46H68V49H42ZM42,54H68V57H42ZM42,62H68V65H42ZM42,70H60V73H42Z" />
+    <!-- Yer imi -->
+    <path
+        android:fillColor="#F2A93B"
+        android:pathData="M44,24H54V41L49,37L44,41Z" />
+</vector>
